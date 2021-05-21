@@ -16,6 +16,16 @@ public class Projectile : MonoBehaviour
     {
         transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
         // transform.Rotate(0, 0, rotationSpeed * Time.deltaTime, Space.Self);
-        transform.Rotate(Vector3.forward * Time.deltaTime * moveSpeed, Space.World);
+        //transform.Rotate(Vector3.forward * Time.deltaTime * moveSpeed, Space.World);
+    }
+    private void OnTriggerEnter2D(Collider2D otherCollider)
+    {
+        var enemyHealth = otherCollider.GetComponent<Health>();
+        Enemy enemy = otherCollider.GetComponent<Enemy>();
+        if(enemyHealth && enemy)
+        {
+            enemyHealth.DealDamage(damage);
+            Destroy(gameObject);
+        }
     }
 }
