@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +16,12 @@ public class Defender_Spawner : MonoBehaviour
     private void OnMouseDown()
     {
         Vector2 worldPos = GetSquareClicked();
+        SpawnDefender(worldPos);
+    }
+
+    private void SpawnDefender(Vector2 worldPos)
+    {
+        Defender newDefender = Instantiate(defender, worldPos, Quaternion.identity);
     }
 
     private Vector2 GetSquareClicked()
@@ -23,7 +30,14 @@ public class Defender_Spawner : MonoBehaviour
         Debug.Log("X = " + clickPos.x.ToString() + "Y = " + clickPos.y.ToString());
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(clickPos);
         Debug.Log("X = " + worldPos.x.ToString() + "Y = " + worldPos.y.ToString());
-        return new Vector2();
+        Vector2 roundedPos = SnapToDrid(worldPos);
+        return roundedPos;
     }
 
+    private Vector2 SnapToDrid(Vector2 worldPos)
+    {
+        float newX = Mathf.RoundToInt(worldPos.x);
+        float newY = Mathf.RoundToInt(worldPos.y);
+        return new Vector2(newX, newY);
+    }
 }
