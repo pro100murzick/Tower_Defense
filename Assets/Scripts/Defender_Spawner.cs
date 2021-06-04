@@ -16,7 +16,18 @@ public class Defender_Spawner : MonoBehaviour
     private void OnMouseDown()
     {
         Vector2 worldPos = GetSquareClicked();
-        SpawnDefender(worldPos);
+        AttemtToPlaceDefenderAt(worldPos);
+    }
+
+    private void AttemtToPlaceDefenderAt(Vector2 worldPos)
+    {
+        var starsCounter = FindObjectOfType<StarsCounter>();
+        int defenderCost = defender.GetStarCost();
+        if (starsCounter.HaveEnoughStars(defenderCost))
+        {
+            SpawnDefender(worldPos);
+            starsCounter.SpendStars(defenderCost);
+        }
     }
 
     private void SpawnDefender(Vector2 worldPos)
